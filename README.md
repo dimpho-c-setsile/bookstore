@@ -2,7 +2,7 @@
 ## Screenshots
 
 # Home page
-
+![alt text](home.jpeg)
 # Store
 
 # Product information

@@ -1,16 +1,19 @@
 "use client";
 import { useParams } from "next/navigation";
 import { BOOKS } from "@/lib/data";
-import { useCart } from "@/lib/store";
 import BookCard from "@/components/BookCard";
 import Link from "next/link";
 import { Star, ShoppingBag, ArrowLeft, BookOpen, Clock, Hash } from "lucide-react";
 import { useState } from "react";
+import { useCartStore } from "@/app/store/cartStore";
+
+
 
 export default function BookPage() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params.id as string;
   const book = BOOKS.find(b => b.id === id);
-  const { add } = useCart();
+  
   const [added, setAdded] = useState(false);
 
   if (!book) return (
@@ -20,13 +23,25 @@ export default function BookPage() {
     </div>
   );
 
-  const related = BOOKS.filter(b => b.id !== book.id && b.category === book.category).slice(0, 3);
+   const related = BOOKS.filter(b => b.id !== book.id && b.category === book.category).slice(0, 3);
+   const addItem = useCartStore((s) => s.addItem);
 
-  const handleAdd = () => {
-    add(book);
+   const handleAddToCart = () => {
+    addItem({
+       id: book.id,
+       title: book.title,
+       unitAmount: book.price,// price in cents
+      
+       coverUrl: book.cover,
+    });
     setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-  };
+
+   {/*} setTimeout(() => {
+    setAdded(false);
+  }, 2000);*/}
+   };
+
+
 
   return (
     <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 32px" }}>
@@ -37,7 +52,7 @@ export default function BookPage() {
       <div style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: 64, marginBottom: 80 }}>
         {/* Cover */}
         <div>
-          <div style={{ background: book.cover, borderRadius: 16, padding: 48, aspectRatio: "3/4", display: "flex", flexDirection: "column", justifyContent: "flex-end", boxShadow: "0 40px 80px rgba(0,0,0,0.2)" }}>
+          <div style={{ backgroundImage:`url(${book.cover})`, borderRadius: 16, padding: 48, aspectRatio: "3/4", display: "flex", flexDirection: "column", justifyContent: "flex-end", boxShadow: "0 40px 80px rgba(0,0,0,0.2)" }}>
             {book.badge && (
               <span style={{ display: "inline-block", background: "var(--rust)", color: "white", padding: "4px 12px", borderRadius: 100, fontSize: 10, fontWeight: 700, fontFamily: "'DM Mono', monospace", letterSpacing: "0.08em", marginBottom: 16, alignSelf: "flex-start" }}>{book.badge}</span>
             )}
@@ -89,10 +104,29 @@ export default function BookPage() {
               <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, fontWeight: 700 }}>${book.price}</div>
               {book.originalPrice && <div style={{ fontSize: 14, color: "var(--slate)", textDecoration: "line-through" }}>${book.originalPrice}</div>}
             </div>
-            <button onClick={handleAdd} style={{ flex: 1, maxWidth: 260, padding: "16px 32px", background: added ? "var(--moss)" : "var(--ink)", color: "var(--cream)", border: "none", borderRadius: 100, fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, transition: "background 0.3s" }}>
-              <ShoppingBag size={18} />
-              {added ? "Added to Cart!" : "Add to Cart"}
-            </button>
+            <button
+  onClick={handleAddToCart}
+  style={{
+    flex: 1,
+    maxWidth: 260,
+    padding: "16px 32px",
+    background: added ? "var(--moss)" : "var(--ink)",
+    color: "var(--cream)",
+    border: "none",
+    borderRadius: 100,
+    fontSize: 15,
+    fontWeight: 700,
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    transition: "background 0.3s",
+  }}
+>
+  <ShoppingBag size={18} />
+  {added ? "Added to Cart!" : "Add to Cart"}
+</button>
           </div>
         </div>
       </div>

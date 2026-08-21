@@ -15,9 +15,9 @@ export default function Home() {
       <section style={{ background: "var(--ink)", color: "var(--cream)", padding: "80px 32px", position: "relative", overflow: "hidden" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
           <div>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 100, fontSize: 11, fontFamily: "'DM Mono', monospace", letterSpacing: "0.1em", marginBottom: 28, color: "var(--gold)" }}>
+            {/*<div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 100, fontSize: 11, fontFamily: "'DM Mono', monospace", letterSpacing: "0.1em", marginBottom: 28, color: "var(--gold)" }}>
               ✦ CURATED FOR CURIOUS MINDS
-            </div>
+            </div>*/}
             <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(48px, 6vw, 80px)", fontWeight: 900, lineHeight: 1.05, marginBottom: 24, letterSpacing: "-0.02em" }}>
               The Next Chapter<br />
               <span style={{ fontStyle: "italic", color: "var(--gold)" }}>In Your</span><br />
@@ -41,9 +41,9 @@ export default function Home() {
           {/* Hero book display */}
           <div style={{ display: "flex", gap: 16, alignItems: "flex-end", justifyContent: "center" }}>
             {HERO_BOOKS.map((book, i) => (
-              <div key={book.id} style={{ flex: 1, background: book.cover, borderRadius: 10, padding: 20, transform: i === 1 ? "translateY(-24px)" : "none", boxShadow: "0 32px 64px rgba(0,0,0,0.4)", maxWidth: 140, aspectRatio: "2/3", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-                <div style={{ fontFamily: "'Playfair Display', serif", color: "rgba(255,255,255,0.9)", fontSize: 13, fontWeight: 700, lineHeight: 1.3 }}>{book.title}</div>
-                <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 10, marginTop: 4 }}>{book.author}</div>
+              <div key={book.id} style={{ flex: 1, backgroundImage: `url(${book.cover})`, borderRadius: 10, padding: 20, transform: i === 1 ? "translateY(-24px)" : "none", boxShadow: "0 32px 64px rgba(0,0,0,0.4)", maxWidth: 140, aspectRatio: "2/3", display: "flex", flexDirection: "column", backgroundSize:"100%" ,justifyContent: "flex-end" }}>
+             {/*  <div style={{ fontFamily: "'Playfair Display', serif", color: "rgba(255,255,255,0.9)", fontSize: 13, fontWeight: 700, lineHeight: 1.3 }}>{book.title}</div>*/}
+                {/*<div style={{ color: "rgba(255,255,255,0.5)", fontSize: 10, marginTop: 4 }}>{book.author}</div>*/}
               </div>
             ))}
           </div>
@@ -118,7 +118,7 @@ export default function Home() {
       </section>
 
       {/* PROMO BANNER */}
-      <section style={{ background: "var(--moss)", color: "var(--cream)", padding: "60px 32px", textAlign: "center" }}>
+      <section className='bg p-' style={{ background: "var(--moss)", color: "var(--cream)", padding: "60px 32px", textAlign: "center" }}>
         <div style={{ maxWidth: 640, margin: "0 auto" }}>
           <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: "0.2em", color: "var(--gold)", marginBottom: 12 }}>LIMITED TIME OFFER</div>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 48, fontWeight: 900, marginBottom: 16, lineHeight: 1.1 }}>Get <span style={{ color: "var(--gold)" }}>20% Off</span><br />Your First Order</h2>
@@ -168,8 +168,8 @@ export default function Home() {
             ))}
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12, color: "rgba(245,240,232,0.35)", fontFamily: "'DM Mono', monospace" }}>
-            <span>© 2025 FOLIO BOOKS. ALL RIGHTS RESERVED.</span>
-            <span>BUILT WITH ♥ FOR READERS</span>
+            <span>© 2026 FOLIO BOOKS. ALL RIGHTS RESERVED.</span>
+           
           </div>
         </div>
       </footer>

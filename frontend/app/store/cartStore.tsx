@@ -3,10 +3,10 @@ import { persist } from "zustand/middleware";
 
 export interface CartItem {
   id: string;        // book id
-  title: string;
-  unitAmount: number; // price in cents
+  name: string;
+  price: number; // price in cents
   quantity: number;
-  coverUrl?: string;
+  image?: string;
 }
 
 interface CartState {
@@ -55,7 +55,7 @@ export const useCartStore = create<CartState>()(
       clearCart: () => set({ items: [] }),
 
       totalAmount: () =>
-        get().items.reduce((sum, i) => sum + i.unitAmount * i.quantity, 0),
+        get().items.reduce((sum, i) => sum + i.price * i.quantity, 0),
 
       totalItems: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
     }),

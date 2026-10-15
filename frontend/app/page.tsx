@@ -1,14 +1,46 @@
 "use client";
+import {useState, useEffect} from 'react';
 import Link from "next/link";
-import { BOOKS, CATEGORIES } from "@/lib/data";
+import { Book} from "@/lib/types";
 import BookCard from "@/components/BookCard";
 import { ArrowRight, TrendingUp, BookMarked, Clock } from "lucide-react";
 
-const HERO_BOOKS = BOOKS.slice(0, 3);
-const FEATURED = BOOKS.filter(b => b.badge).slice(0, 4);
-const NEW_ARRIVALS = BOOKS.slice(-4);
 
 export default function Home() {
+
+  const [books, setBooks] = useState<Book[]>([]);
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  const fetchBooks = async () => {
+    try {
+      const response = await fetch("http://localhost:5188/api/Book");
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch books");
+      }
+
+      const data = await response.json();
+
+      console.log("Homepage books:", data);
+
+      setBooks(data);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchBooks();
+}, []);
+
+
+const HERO_BOOKS = books.slice(0, 3);
+const FEATURED = books.slice(0, 4);
+const NEW_ARRIVALS = books.slice(-4);
+
+
   return (
     <main>
       {/* HERO */}
@@ -41,7 +73,7 @@ export default function Home() {
           {/* Hero book display */}
           <div style={{ display: "flex", gap: 16, alignItems: "flex-end", justifyContent: "center" }}>
             {HERO_BOOKS.map((book, i) => (
-              <div key={book.id} style={{ flex: 1, backgroundImage: `url(${book.cover})`, borderRadius: 10, padding: 20, transform: i === 1 ? "translateY(-24px)" : "none", boxShadow: "0 32px 64px rgba(0,0,0,0.4)", maxWidth: 140, aspectRatio: "2/3", display: "flex", flexDirection: "column", backgroundSize:"100%" ,justifyContent: "flex-end" }}>
+              <div key={book.bookId} style={{ flex: 1, backgroundImage: `url(/images/${book.image})`, borderRadius: 10, padding: 20, transform: i === 1 ? "translateY(-24px)" : "none", boxShadow: "0 32px 64px rgba(0,0,0,0.4)", maxWidth: 140, aspectRatio: "2/3", display: "flex", flexDirection: "column", backgroundSize:"100%" ,justifyContent: "flex-end" }}>
              {/*  <div style={{ fontFamily: "'Playfair Display', serif", color: "rgba(255,255,255,0.9)", fontSize: 13, fontWeight: 700, lineHeight: 1.3 }}>{book.title}</div>*/}
                 {/*<div style={{ color: "rgba(255,255,255,0.5)", fontSize: 10, marginTop: 4 }}>{book.author}</div>*/}
               </div>
@@ -112,7 +144,7 @@ export default function Home() {
             </Link>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
-            {FEATURED.map(book => <BookCard key={book.id} book={book} />)}
+            {FEATURED.map(book => <BookCard key={book.bookId} book={book} />)}
           </div>
         </div>
       </section>
@@ -143,7 +175,7 @@ export default function Home() {
             </Link>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
-            {NEW_ARRIVALS.map(book => <BookCard key={book.id} book={book} />)}
+            {NEW_ARRIVALS.map(book => <BookCard key={book.bookId} book={book} />)}
           </div>
         </div>
       </section>
